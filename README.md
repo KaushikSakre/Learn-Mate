@@ -39,7 +39,26 @@ learnmate/
 ├── core/          # Core logic: vision, retrieval, LLM
 ├── api/           # Django backend
 ├── ui/            # React frontend
-├── data/          # Diagrams, equations, documents
+├── data/
+│   └── raw_pdfs/
+│       ├── science_class9/
+│       │   ├── ch1.pdf
+│       │   ├── ch2.pdf
+│       ├── science_class10/
+│       │   ├── ch1.pdf
+│       │   ├── ch2.pdf
+│       ├── math_class9/
+│       │   ├── ch1.pdf
+│       └── math_class10/
+│           ├── ch1.pdf
+│           └── ch2.pdf
+│    └── docs/
+│        ├── science_class9/
+│        │   ├── ch1.txt
+│        │   ├── ch2.txt
+│        ├── math_class10/
+│        │   ├── ch1.txt
+│        │   └── ch2.txt
 ├── notebooks/     # Colab notebooks for prototyping
 ├── docker/        # Docker-related config
 ├── README.md
