@@ -3,6 +3,14 @@ from PIL import Image
 import pytesseract
 from transformers import BlipProcessor, BlipForConditionalGeneration
 import torch
+from dotenv import load_dotenv
+
+load_dotenv()
+HF_API_TOKEN = os.getenv("HF_API_TOKEN")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+if not HF_API_TOKEN or not GROQ_API_KEY:
+    raise ValueError("Missing required API key(s)!")
 
 # ✅ Set fallback path to tesseract executable (Windows-specific)
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -25,12 +33,12 @@ def generate_caption(image_path):
     caption = processor.decode(out[0], skip_special_tokens=True)
     return caption
 
-def query_image(image_path):
+def query_image(image_path: str) -> str:
     caption = generate_caption(image_path)
     print(f"🖼️ Image Caption: {caption}")
     return caption
 
-def query_equation(image_path):
+def query_equation(image_path: str) -> str:
     text = extract_text(image_path)
     print(f"🔤 OCR Text: {text}")
     return text

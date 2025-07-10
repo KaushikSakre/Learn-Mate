@@ -1,26 +1,26 @@
 # PDF handling
-pdfplumber==0.10.2
-PyMuPDF==1.23.3  # fitz
+pdfplumber
+PyMuPDF  # fitz
 
 # OCR
-pytesseract==0.3.10
-Pillow==10.2.0
+pytesseract
+Pillow
 
 # Text processing
 regex
 nltk
 
 # Image utilities
-opencv-python-headless==4.9.0.80  # safer for servers/Colab
+opencv-python-headless  # safer for servers/Colab
 
 # For future RAG pipeline
-torch==2.1.0
-torchvision==0.16.0
-transformers==4.35.2
-huggingface_hub==0.16.4
-sentence-transformers==2.2.2
-langchain==0.1.16
-chromadb==0.4.24
+torch
+torchvision
+transformers
+huggingface_hub
+sentence-transformers
+langchain
+chromadb
 tqdm
 numpy
 scikit-learn
@@ -28,6 +28,9 @@ scikit-learn
 # Optional (for Groq/OpenAI-style API calling)
 openai
 requests
+
+# DuckDuckGo search for fallback
+duckduckgo-search
 
 # If working in Colab
 ipython

@@ -1,6 +1,72 @@
+# --- Python (FastAPI Backend) ---
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
 .env
-.ipynb_checkpoints/
-/vectorstore/
+.env.*
+venv/
+.envrc
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+*.sqlite3
+*.log
+
+# --- Jupyter Notebook Checkpoints ---
+.ipynb_checkpoints
+
+# --- VS Code ---
+.vscode/
+.code-workspace
+
+# --- React Frontend (ui) ---
+ui/node_modules/
+ui/build/
+ui/.env
+ui/.env.local
+ui/.env.development
+ui/.env.production
+ui/.env.test
+ui/.DS_Store
+
+# --- OS & Editor Junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Logs & Temp Files ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.orig
+
+# --- Misc ---
+*.sqlite
+*.db
+*.tar.gz
+*.zip
+*.exe
+*.out
+
+# --- Image Cache / Dumps ---
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# --- LangChain / Chroma Vector Store ---
+
+vectorstore/chroma_db/
+
 data/vectorstore(sentence Transfromer)/
