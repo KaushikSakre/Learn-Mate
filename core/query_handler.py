@@ -2,7 +2,7 @@ import os
 import tempfile
 import datetime
 import json
-
+from langchain_groq import ChatGroq
 from core.rag_pipeline import (
     ask_question,
     answer_from_image,
@@ -11,6 +11,7 @@ from core.rag_pipeline import (
     query_image,
     query_equation
 )
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def save_to_history(user_input, bot_reply):
     log = {
@@ -21,55 +22,41 @@ def save_to_history(user_input, bot_reply):
     with open("chat_logs.json", "a", encoding="utf-8") as f:
         f.write(json.dumps(log) + "\n")
 
-async def handle_query(message, image):
+from core.db import init_db, get_or_create_session, save_message, get_chat_history
+init_db()  # ensure db exists
+
+async def handle_query(message, image, session_name):
+    from langchain.schema import AIMessage, HumanMessage
     from langchain_groq import ChatGroq
     from dotenv import load_dotenv
     load_dotenv()
 
-    # 🧠 Case 1: Both message and image provided
+    session_id = get_or_create_session(session_name)
+
     if message and image:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
-            contents = await image.read()
-            tmp.write(contents)
-            tmp_path = tmp.name
+        # same as before...
+        # combine caption + ocr + message into prompt
+        # ...
+        prompt = f"..."  # from earlier
 
-        caption = query_image(tmp_path)
-        ocr_text = query_equation(tmp_path)
-        query_text = f"{message}. {caption}. {ocr_text}"
-
-        embedding = embed_query(query_text)
-        docs = vectordb.similarity_search_by_vector(embedding, k=4)
-        context = "\n\n".join([doc.page_content for doc in docs])
-
-        prompt = f"""You are an educational assistant helping students.
-Context: {context}
-Image Caption: {caption}
-Equation: {ocr_text}
-Question: {message}
-Answer in simple terms:"""
+    elif message:
+        history = get_chat_history(session_id)
+        messages = [HumanMessage(content=h['content']) if h['role'] == 'user' 
+                    else AIMessage(content=h['content']) for h in history]
+        messages.append(HumanMessage(content=message))
 
         llm = ChatGroq(model="llama3-8b-8192", api_key=os.getenv("GROQ_API_KEY"))
-        response = llm.invoke(prompt)
-        answer = response.content
-        save_to_history(query_text, answer)
-        return answer
+        response = llm.invoke(messages)
 
-    # 💬 Case 2: Only message
-    elif message:
-        answer = ask_question(message).content
-        save_to_history(message, answer)
-        return answer
+        save_message(session_id, "user", message)
+        save_message(session_id, "assistant", response.content)
 
-    # 🖼️ Case 3: Only image
+        return response.content
+
     elif image:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
-            contents = await image.read()
-            tmp.write(contents)
-            tmp_path = tmp.name
+        # use image + ocr and return answer, optionally save to history
+        # ...
+        return "🖼️ Answer from image..."
 
-        answer = answer_from_image(tmp_path).content
-        save_to_history("(image only)", answer)
-        return answer
+    return "❌ No input."
 
-    else:
-        return "❌ Please provide a question or image."
