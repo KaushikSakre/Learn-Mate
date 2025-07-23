@@ -1,73 +1,222 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Sidebar from "./components/Sidebar";
+import ChatWindow from "./components/ChatWindow";
+import AuthContainer from "./components/Auth/AuthContainer";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import axios from "axios";
+import "./App.css";
 
-function App() {
-  const [message, setMessage] = useState('');
-  const [image, setImage] = useState(null);
-  const [chatHistory, setChatHistory] = useState([]);
-  const [loading, setLoading] = useState(false);
+function AppContent() {
+  const [sessions, setSessions] = useState([]);
+  const [currentSessionId, setCurrentSessionId] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { isAuthenticated, loading } = useAuth();
 
-  // Load history on initial render (optional)
   useEffect(() => {
-    const fetchHistory = async () => {
+    if (isAuthenticated) {
+      fetchSessions();
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (currentSessionId && isAuthenticated) {
+      axios.get(`http://localhost:8000/session/${currentSessionId}`).then(res => {
+        setMessages(res.data);
+      });
+    }
+  }, [currentSessionId, isAuthenticated]);
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#f8f9fa'
+      }}>
+        <div style={{
+          textAlign: 'center'
+        }}>
+          <div style={{
+            fontSize: '3rem',
+            marginBottom: '20px'
+          }}>🧠</div>
+          <div style={{
+            fontSize: '1.2rem',
+            color: '#6c757d'
+          }}>Loading LearnMate...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show auth forms if not authenticated
+  if (!isAuthenticated) {
+    return <AuthContainer />;
+  }
+
+  const fetchSessions = async () => {
+    const res = await axios.get("http://localhost:8000/sessions");
+    setSessions(res.data);
+    if (res.data.length > 0) setCurrentSessionId(res.data[0].id);
+  };
+
+  const createNewSession = async () => {
+    const res = await axios.post("http://localhost:8000/session");
+    await fetchSessions();
+    setCurrentSessionId(res.data.session_id);
+  };
+
+  const sendMessage = async (userMessage, file = null) => {
+    if (!userMessage.trim() && !file) return;
+
+    // Auto-create session if none exists
+    if (!currentSessionId) {
       try {
-        const res = await axios.get("http://127.0.0.1:8000/history");
-        setChatHistory(res.data.history || []);
+        const sessionRes = await axios.post("http://localhost:8000/session");
+        const newSessionId = sessionRes.data.session_id;
+        setCurrentSessionId(newSessionId);
+        await fetchSessions();
+        
+        // Continue with the message using the new session
+        await sendMessageToSession(newSessionId, userMessage, file);
+        return;
       } catch (err) {
-        console.error("Failed to load history", err);
+        console.error('Error creating session:', err);
+        setError('Failed to create new chat. Please try again.');
+        return;
       }
-    };
-    fetchHistory();
-  }, []);
+    }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!message && !image) return;
+    await sendMessageToSession(currentSessionId, userMessage, file);
+  };
 
-    const formData = new FormData();
-    if (message) formData.append("message", message);
-    if (image) formData.append("image", image);
-
-    setChatHistory(prev => [...prev, { type: "user", text: message || "(🖼️ Image uploaded)" }]);
+  const sendMessageToSession = async (sessionId, userMessage, file = null) => {
+    setIsLoading(true);
+    setError(null);
 
     try {
-      setLoading(true);
-      const res = await axios.post("http://127.0.0.1:8000/query", formData);
-      setChatHistory(prev => [...prev, { type: "bot", text: res.data.answer }]);
-    } catch (error) {
-      setChatHistory(prev => [...prev, { type: "bot", text: "❌ Error: " + error.message }]);
+      let messageContent = userMessage;
+      
+      let res;
+      
+      // Handle file upload
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('session_id', sessionId);
+        if (userMessage.trim()) {
+          formData.append('user_message', userMessage);
+        }
+        
+        messageContent = userMessage.trim() 
+          ? `${userMessage} [Image: ${file.name}]`
+          : `[Image: ${file.name}]`;
+        
+        res = await axios.post("http://localhost:8000/chat/image", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      } else {
+        res = await axios.post("http://localhost:8000/chat", {
+          session_id: sessionId,
+          user_message: messageContent
+        });
+      }
+
+      setMessages(prev => [
+        ...prev,
+        { role: "user", content: messageContent },
+        { role: "assistant", content: res.data.response }
+      ]);
+    } catch (err) {
+      console.error('Error sending message:', err);
+      setError('Failed to send message. Please try again.');
+      
+      // Still add user message even if API fails
+      setMessages(prev => [
+        ...prev,
+        { role: "user", content: userMessage || `[Uploaded: ${file?.name}]` }
+      ]);
     } finally {
-      setMessage('');
-      setImage(null);
-      setLoading(false);
+      setIsLoading(false);
+    }
+  };
+
+  const deleteSession = async (sessionId) => {
+    try {
+      await axios.delete(`http://localhost:8000/session/${sessionId}`);
+      
+      setSessions(prev => prev.filter(s => s.id !== sessionId));
+      
+      if (sessionId === currentSessionId) {
+        const remainingSessions = sessions.filter(s => s.id !== sessionId);
+        if (remainingSessions.length > 0) {
+          setCurrentSessionId(remainingSessions[0].id);
+        } else {
+          setCurrentSessionId(null);
+          setMessages([]);
+        }
+      }
+    } catch (err) {
+      console.error('Error deleting session:', err);
+      setError('Failed to delete session.');
     }
   };
 
   return (
     <div className="App">
-      <h1>📚 LearnMate Assistant</h1>
-
-      <div className="chat-box">
-        {chatHistory.map((msg, idx) => (
-          <div key={idx} className={`chat-message ${msg.type}`}>
-            {msg.text}
-          </div>
-        ))}
-        {loading && <div className="chat-message bot">⏳ Thinking...</div>}
-      </div>
-
-      <form onSubmit={handleSubmit} className="chat-form">
-        <input
-          type="text"
-          value={message}
-          placeholder="Ask a question..."
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
-        <button type="submit">Send</button>
-      </form>
+      {error && (
+        <div className="error" style={{
+          position: "fixed",
+          top: "20px",
+          right: "20px",
+          zIndex: 1000,
+          maxWidth: "300px"
+        }}>
+          {error}
+          <button 
+            onClick={() => setError(null)}
+            style={{
+              marginLeft: "10px",
+              background: "transparent",
+              border: "none",
+              color: "inherit",
+              cursor: "pointer",
+              fontSize: "1.2rem"
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+      
+      <Sidebar
+        sessions={sessions}
+        currentSessionId={currentSessionId}
+        onSessionClick={setCurrentSessionId}
+        onNewSession={createNewSession}
+        onDeleteSession={deleteSession}
+      />
+      <ChatWindow
+        messages={messages}
+        onSend={sendMessage}
+        isLoading={isLoading}
+      />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

@@ -1,79 +1,301 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f8f9fa;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* App Container */
 .App {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 700px;
-  margin: auto;
-}
-
-.chat-box {
-  border: 1px solid #ddd;
-  padding: 10px;
-  height: 400px;
-  overflow-y: scroll;
-  background: #f9f9f9;
-  margin-bottom: 10px;
-}
-
-.chat-message {
-  margin: 8px 0;
-  padding: 10px;
-  border-radius: 10px;
-  max-width: 80%;
-  line-height: 1.4;
-}
-
-.chat-message.user {
-  background-color: #dcf8c6;
-  align-self: flex-end;
-  text-align: right;
-}
-
-.chat-message.bot {
-  background-color: #e6e6e6;
-  align-self: flex-start;
-}
-
-.chat-form {
+  height: 100vh;
   display: flex;
-  gap: 10px;
+  overflow: hidden;
 }
 
-.chat-form input[type="text"] {
-  flex: 1;
-  padding: 8px;
+/* Loading Animation Keyframes */
+@keyframes pulse {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.chat-form input[type="file"] {
-  width: 160px;
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-.chat-form button {
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.4);
+}
+
+/* Button hover effects */
+.btn-hover {
+  transition: all 0.2s ease;
+}
+
+.btn-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+  
+  /* Sidebar becomes header on mobile */
+  .sidebar-mobile {
+    width: 100% !important;
+    height: auto !important;
+    flex-direction: row !important;
+    padding: 10px !important;
+  }
+  
+  .sidebar-mobile .sessions-list {
+    display: none; /* Hide sessions on mobile by default */
+  }
+  
+  .sidebar-mobile.expanded .sessions-list {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: inherit;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Error state styles */
+.error {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
   padding: 8px 12px;
-}
-.chat-box {
-  max-height: 60vh;
-  overflow-y: auto;
-  padding: 1rem;
-  background: #f9f9f9;
-  border: 1px solid #ccc;
-  margin-bottom: 1rem;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 0.9rem;
 }
 
-.chat-message {
-  margin-bottom: 1rem;
+/* Success state styles */
+.success {
+  color: #155724;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 0.9rem;
 }
 
-.chat-message.user {
-  text-align: right;
-  color: #005f99;
+/* Image preview styles */
+.image-preview {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin: 10px 0;
 }
 
-.chat-message.bot {
-  text-align: left;
-  color: #222;
+/* Dark mode support (future enhancement) */
+@media (prefers-color-scheme: dark) {
+  /* Keep current light theme for now */
 }
 
-.msg-time {
-  font-size: 0.75rem;
-  color: #888;
+/* Animation for new messages */
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-appear {
+  animation: slideInFromBottom 0.3s ease-out;
+}
+
+/* Enhanced message styling */
+.message-bubble {
+  transition: all 0.2s ease;
+}
+
+.message-bubble:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+/* Enhanced text formatting */
+.formatted-content h1,
+.formatted-content h2,
+.formatted-content h3,
+.formatted-content h4 {
+  border-bottom: 2px solid rgba(0,123,255,0.1);
+  padding-bottom: 4px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.formatted-content ul,
+.formatted-content ol {
+  margin: 12px 0;
+  padding-left: 0;
+}
+
+.formatted-content li {
+  margin: 8px 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+.formatted-content pre {
+  border-left: 4px solid #007bff;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+.formatted-content code {
+  font-weight: 500;
+}
+
+.formatted-content blockquote {
+  border-left: 4px solid #007bff;
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: rgba(0,123,255,0.05);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+/* Math expression styling */
+.math-expression {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.1em;
+  padding: 8px 16px;
+  margin: 12px 0;
+  border-radius: 8px;
+  text-align: center;
+  background: linear-gradient(135deg, #e8f4fd 0%, #bee5eb 100%);
+  border: 1px solid #bee5eb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Step-by-step solution styling */
+.solution-step {
+  background: rgba(40, 167, 69, 0.05);
+  border-left: 4px solid #28a745;
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.solution-step .step-number {
+  font-weight: 600;
+  color: #28a745;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+/* Definition/concept boxes */
+.concept-box {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border: 1px solid #ffeaa7;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);
+}
+
+.concept-box .concept-title {
+  font-weight: 600;
+  color: #856404;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+}
+
+/* Formula highlighting */
+.formula {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  text-align: center;
+  font-family: 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2c3e50;
+  box-shadow: 0 2px 6px rgba(0,123,255,0.1);
+}
+
+/* Utility classes */
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
 }

@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from transformers import pipeline
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_groq import ChatGroq
 from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
 from core.image_utils import query_image, query_equation
@@ -57,7 +57,7 @@ def ask_question(query: str) -> str:
     llm = ChatGroq(
         model="llama3-8b-8192",
         api_key=GROQ_API_KEY,
-        temperature=0.3
+        temperature=0.9
     )
 
     prompt = f"""
@@ -94,13 +94,22 @@ def answer_from_image(image_path: str) -> str:
     llm = ChatGroq(
         model="llama3-8b-8192",
         api_key=GROQ_API_KEY,
-        temperature=0.3
+        temperature=0.9
     )
 
-    prompt = f"""You are an educational assistant helping students.
+    prompt = f"""You MUST respond ONLY in Hinglish (Hindi + English mix). DO NOT use pure English. You are a desi tutor.
+
+COMPULSORY Hinglish style example:
+"Arre yaar, is image mein maine dekha ki ye physics ka problem hai! Dekho, jaise ghar mein light switch on karte hai toh current flow hota hai, waise hi circuit mein bhi hota hai. Ohm's law yaad hai na? V = IR. Bas isme values substitute kar do aur answer mil jayega!"
+
+MUST use these Hindi words mixed with English:
+- arre, yaar, dekho, samjho, hai, mein, se, ka, ye, is, bas, toh, bilkul
+- pehle, phir, ab, simple, problem, solution, answer, yaad, karo
+
 Context: {context}
 Image Caption: {caption}
 Equation: {ocr_text}
-Answer in simple terms:"""
+
+CRITICAL: Mix Hindi-English continuously throughout your response!"""
 
     return llm.invoke(prompt).content

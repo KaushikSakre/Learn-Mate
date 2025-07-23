@@ -1,19 +1,11 @@
-# PDF handling
-pdfplumber
-PyMuPDF  # fitz
 
-# OCR
+pdfplumber
+PyMuPDF  
 pytesseract
 Pillow
-
-# Text processing
 regex
 nltk
-
-# Image utilities
-opencv-python-headless  # safer for servers/Colab
-
-# For future RAG pipeline
+opencv-python-headless  
 torch
 torchvision
 transformers
@@ -24,13 +16,16 @@ chromadb
 tqdm
 numpy
 scikit-learn
-
-# Optional (for Groq/OpenAI-style API calling)
 openai
 requests
-
-# DuckDuckGo search for fallback
 duckduckgo-search
-
-# If working in Colab
 ipython
+fastapi
+uvicorn
+pydantic
+python-multipart
+aiofiles
+python-dotenv
+langchain-groq
+langchain-community
+PyJWT
