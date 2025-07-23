@@ -12,7 +12,7 @@ It supports queries in Hinglish and uses vision-language models, retrieval-augme
 - 🔍 **Curriculum-Aware Retrieval**: Context is fetched from NCERT-like content using embeddings and ChromaDB.
 - 🤖 **LLM-Powered QA**: Groq-hosted models (Mixtral, LLaMA-3) explain diagrams or solve equations clearly.
 - 💬 **Multilingual Queries**: Supports Hinglish and informal student-style questions.
-- ⚙️ **Modular & Portable**: Built with Django, React, LangChain, Docker — easy to extend and deploy.
+- ⚙️ **Modular & Portable**: Built with FastAPI, React, LangChain, and can be deployed with Docker.
 
 ---
 
@@ -25,19 +25,18 @@ It supports queries in Hinglish and uses vision-language models, retrieval-augme
 | Vector DB          | [ChromaDB](https://www.trychroma.com/)     |
 | LLMs               | Groq-hosted Mixtral-8x7B / LLaMA-3          |
 | RAG Orchestration  | LangChain                                  |
-| Backend API        | Django / FastAPI (WIP)                     |
-| Frontend UI        | React + TypeScript (WIP)                   |
+| Backend API        | FastAPI                     |
+| Frontend UI        | React + TypeScript                     |
 | Deployment         | Docker, Docker Compose                     |
 | Dev Platform       | Google Colab + GitHub Codespaces           |
 
 ---
 
-## 📁 Project Structure (WIP)
+## 📁 Project Structure
 
 ```bash
 learnmate/
-├── core/          # Core logic: vision, retrieval, LLM
-├── api/           # Django backend
+├── core/          # Core logic: vision, retrieval, LLM, FastAPI app
 ├── ui/            # React frontend
 ├── data/
 │   └── raw_pdfs/
@@ -60,6 +59,100 @@ learnmate/
 │        │   ├── ch1.txt
 │        │   └── ch2.txt
 ├── notebooks/     # Colab notebooks for prototyping
-├── docker/        # Docker-related config
+├── Dockerfile
+├── .dockerignore
 ├── README.md
 └── .gitignore
+
+
+```
+
+---
+
+## 🛠️ Setup & Run
+
+### Without Docker
+
+1. **Clone the repo**:
+   ```bash
+   git clone https://github.com/your-username/learnmate.git
+   cd learnmate
+   ```
+
+2. **Set up environment variables**:
+   - Create a `.env` file in the root directory.
+   - Add your `HF_API_TOKEN` and `GROQ_API_KEY`.
+
+3. **Install backend dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run the backend**:
+    ```bash
+    uvicorn core.main:app --reload
+    ```
+
+5. **Install frontend dependencies**:
+    ```bash
+    cd ui
+    npm install
+    ```
+
+6. **Run the frontend**:
+    ```bash
+    npm start
+    ```
+
+### With Docker
+
+1. **Clone the repo**:
+   ```bash
+   git clone https://github.com/your-username/learnmate.git
+   cd learnmate
+   ```
+
+2. **Set up environment variables**:
+   - Create a `.env` file in the root directory.
+   - Add your `HF_API_TOKEN` and `GROQ_API_KEY`.
+
+3. **Run with Docker Compose**:
+   ```bash
+   docker-compose up --build
+   ```
+
+4. **Access**:
+   - **Backend**: `http://localhost:8000`
+   - **Frontend**: `http://localhost:3000`
+
+---
+
+## 📝 TODO & Next Steps
+
+- [ ] **Frontend**: Build out the React UI for chat and file handling.
+- [ ] **RAG**: Fine-tune retrieval with better chunking and metadata.
+- [ ] **Deployment**: Set up a production-ready Docker Compose config.
+- [ ] **Testing**: Add unit and integration tests.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## 🙏 Acknowledgements
+
+- [Hugging Face](https://huggingface.co/) for the models and libraries.
+- [Groq](https://groq.com/) for the fast LLM inference.
+- [LangChain](https://www.langchain.com/) for the RAG framework.
+- [ChromaDB](https://www.trychroma.com/) for the vector store.
+
+---

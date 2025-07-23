@@ -71,3 +71,6 @@ vectorstore/chroma_db/
 
 data/vectorstore(sentence Transfromer)/
 chat_logs.json
+
+# --- Docker ---
+.dockerignore
