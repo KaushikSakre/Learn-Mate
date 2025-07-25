@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
 import AuthContainer from "./components/Auth/AuthContainer";
+import ForgotPasswordForm from "./components/Auth/ForgotPasswordForm";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import axios from "axios";
 import "./App.css";
@@ -28,34 +29,28 @@ function AppContent() {
     }
   }, [currentSessionId, isAuthenticated]);
 
-  // Show loading spinner while checking authentication
   if (loading) {
     return (
-      <div style={{
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#f8f9fa'
+      <div style={{ 
+        height: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        background: '#f8f9fa' 
       }}>
-        <div style={{
-          textAlign: 'center'
-        }}>
-          <div style={{
-            fontSize: '3rem',
-            marginBottom: '20px'
-          }}>🧠</div>
-          <div style={{
-            fontSize: '1.2rem',
-            color: '#6c757d'
-          }}>Loading LearnMate...</div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🧠</div>
+          <div style={{ fontSize: '1.2rem', color: '#6c757d' }}>Loading LearnMate...</div>
         </div>
       </div>
     );
   }
 
-  // Show auth forms if not authenticated
   if (!isAuthenticated) {
+    const path = window.location.pathname;
+    if (path === '/forgot-password') {
+      return <ForgotPasswordForm />;
+    }
     return <AuthContainer />;
   }
 
@@ -74,7 +69,6 @@ function AppContent() {
   const sendMessage = async (userMessage, file = null) => {
     if (!userMessage.trim() && !file) return;
 
-    // Auto-create session if none exists
     if (!currentSessionId) {
       try {
         const sessionRes = await axios.post("http://localhost:8000/session");
@@ -82,7 +76,6 @@ function AppContent() {
         setCurrentSessionId(newSessionId);
         await fetchSessions();
         
-        // Continue with the message using the new session
         await sendMessageToSession(newSessionId, userMessage, file);
         return;
       } catch (err) {
@@ -104,7 +97,6 @@ function AppContent() {
       
       let res;
       
-      // Handle file upload
       if (file) {
         const formData = new FormData();
         formData.append('file', file);
@@ -138,7 +130,6 @@ function AppContent() {
       console.error('Error sending message:', err);
       setError('Failed to send message. Please try again.');
       
-      // Still add user message even if API fails
       setMessages(prev => [
         ...prev,
         { role: "user", content: userMessage || `[Uploaded: ${file?.name}]` }

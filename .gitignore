@@ -51,6 +51,7 @@ desktop.ini
 *.orig
 
 # --- Misc ---
+.claude/
 *.sqlite
 *.db
 *.tar.gz

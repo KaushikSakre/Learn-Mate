@@ -1,1 +1,1 @@
-feat: add authentication and improve RAG pipeline
+chore: remove .claude directory from version control
