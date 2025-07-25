@@ -1,13 +1,4 @@
-
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f2f5;
-}
-
-.auth-form {
+.auth-card {
   padding: 40px;
   background: white;
   border-radius: 8px;
@@ -17,16 +8,16 @@
   text-align: center;
 }
 
-.auth-form h2 {
+.auth-card h2 {
   margin-bottom: 24px;
   color: #333;
 }
 
-.auth-form .form-control {
+.auth-card .form-control {
   margin-bottom: 16px;
 }
 
-.auth-form .form-control input {
+.auth-card .form-control input {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -34,7 +25,7 @@
   font-size: 16px;
 }
 
-.auth-form .btn {
+.auth-card .btn {
   width: 100%;
   padding: 12px;
   border: none;
@@ -46,16 +37,16 @@
   transition: background-color 0.3s;
 }
 
-.auth-form .btn:hover {
+.auth-card .btn:hover {
   background-color: #0056b3;
 }
 
-.auth-form .switch-auth {
+.auth-card .switch-auth {
   margin-top: 16px;
   font-size: 14px;
 }
 
-.auth-form .switch-auth button {
+.auth-card .switch-auth button {
   background: none;
   border: none;
   color: #007bff;
@@ -64,14 +55,14 @@
   font-size: 14px;
 }
 
-.auth-form .forgot-password {
+.auth-card .forgot-password {
   display: block;
   margin-top: 12px;
   font-size: 14px;
   text-align: right;
 }
 
-.auth-form .forgot-password a {
+.auth-card .forgot-password a {
   color: #007bff;
   text-decoration: none;
 }

@@ -22,8 +22,8 @@ const LoginForm = ({ onSwitchToRegister }) => {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
+    <div className="auth-card">
+      <form onSubmit={handleSubmit}>
         <h2>Login</h2>
         {error && <div className="error">{error}</div>}
         <div className="form-control">
