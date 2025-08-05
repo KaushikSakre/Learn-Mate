@@ -50,60 +50,169 @@ const ChatWindow = ({ messages, onSend, isLoading }) => {
       flex: 1, 
       display: "flex", 
       flexDirection: "column", 
-      padding: "20px", 
+      padding: "0", 
       overflow: "hidden",
-      background: "#f8f9fa"
+      background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
+      position: "relative"
     }}>
       {/* Header */}
       <div style={{
-        padding: "15px 0",
-        borderBottom: "2px solid #e9ecef",
-        marginBottom: "20px"
+        padding: "24px 32px",
+        background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+        borderBottom: "1px solid #e2e8f0",
+        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)"
       }}>
-        <h2 style={{ margin: 0, color: "#2c3e50", fontSize: "1.5rem" }}>LearnMate Chat</h2>
-        <p style={{ margin: "5px 0 0 0", color: "#6c757d", fontSize: "0.9rem" }}>Ask questions in text or upload images/diagrams</p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <h2 style={{ 
+              margin: 0, 
+              color: "#1e293b", 
+              fontSize: "1.75rem",
+              fontWeight: "700",
+              background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text"
+            }}>LearnMate Chat</h2>
+            <p style={{ 
+              margin: "4px 0 0 0", 
+              color: "#64748b", 
+              fontSize: "0.95rem",
+              fontWeight: "400"
+            }}>Ask questions in text or upload images/diagrams</p>
+          </div>
+          <div style={{
+            background: "linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)",
+            borderRadius: "16px",
+            padding: "12px 16px",
+            border: "1px solid #93c5fd"
+          }}>
+            <span style={{ fontSize: "1.5rem" }}>🧠</span>
+          </div>
+        </div>
       </div>
 
       {/* Messages */}
       <div style={{ 
         flex: 1, 
         overflowY: "auto", 
-        paddingRight: "10px",
-        marginBottom: "20px"
+        padding: "20px 32px",
+        marginBottom: "0"
       }}>
         {messages.length === 0 ? (
           <div style={{
             textAlign: "center",
-            color: "#6c757d",
-            marginTop: "30px",
-            fontSize: "1rem"
+            padding: "40px 20px",
+            maxWidth: "800px",
+            margin: "0 auto"
           }}>
-            <div style={{ fontSize: "4rem", marginBottom: "20px" }}>🧠📚</div>
-            <h3 style={{ color: "#2c3e50", marginBottom: "15px" }}>Welcome to LearnMate!</h3>
-            <p style={{ fontSize: "1rem", marginBottom: "25px", color: "#495057" }}>
-              Your friendly AI tutor for Class 9-10 Math & Science
+            <div style={{ 
+              fontSize: "5rem", 
+              marginBottom: "24px",
+              background: "linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #ec4899 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.1))"
+            }}>🧠📚</div>
+            
+            <h3 style={{ 
+              color: "#1e293b", 
+              marginBottom: "16px",
+              fontSize: "2.5rem",
+              fontWeight: "700",
+              background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text"
+            }}>Welcome to LearnMate!</h3>
+            
+            <p style={{ 
+              fontSize: "1.2rem", 
+              marginBottom: "40px", 
+              color: "#64748b",
+              fontWeight: "400",
+              lineHeight: "1.6"
+            }}>
+              Your intelligent AI tutor for Class 9-10 Math & Science
             </p>
             
             <div style={{ 
-              background: "#f8f9fa", 
-              borderRadius: "12px", 
-              padding: "20px", 
-              margin: "20px auto",
-              maxWidth: "500px",
-              border: "1px solid #e9ecef"
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)", 
+              borderRadius: "20px", 
+              padding: "32px", 
+              margin: "32px auto",
+              maxWidth: "600px",
+              border: "1px solid #e2e8f0",
+              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.05)"
             }}>
-              <h4 style={{ color: "#495057", marginBottom: "15px" }}>Try asking:</h4>
-              <div style={{ textAlign: "left" }}>
-                <p style={{ margin: "8px 0", fontSize: "0.9rem" }}>📐 "Explain Pythagorean theorem with examples"</p>
-                <p style={{ margin: "8px 0", fontSize: "0.9rem" }}>🧪 "What is photosynthesis in simple terms?"</p>
-                <p style={{ margin: "8px 0", fontSize: "0.9rem" }}>📊 "Help me solve quadratic equations"</p>
-                <p style={{ margin: "8px 0", fontSize: "0.9rem" }}>🖼️ Upload math problems or diagrams</p>
+              <h4 style={{ 
+                color: "#374151", 
+                marginBottom: "24px",
+                fontSize: "1.3rem",
+                fontWeight: "600"
+              }}>Try asking:</h4>
+              
+              <div style={{ 
+                display: "grid", 
+                gap: "16px", 
+                textAlign: "left" 
+              }}>
+                {[
+                  { icon: "📐", text: "Explain Pythagorean theorem with examples", color: "#2563eb" },
+                  { icon: "🧪", text: "What is photosynthesis in simple terms?", color: "#7c3aed" },
+                  { icon: "📊", text: "Matlab ki a² + b + c = 0, toh ka root hai?", color: "#ec4899" },
+                  { icon: "🖼️", text: "Upload math problems or diagrams", color: "#10b981" }
+                ].map((item, index) => (
+                  <div key={index} style={{
+                    background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
+                    padding: "16px 20px",
+                    borderRadius: "12px",
+                    border: `1px solid ${item.color}20`,
+                    borderLeft: `4px solid ${item.color}`,
+                    transition: "all 0.2s ease",
+                    cursor: "pointer"
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = "translateX(8px)";
+                    e.currentTarget.style.boxShadow = `0 4px 12px ${item.color}20`;
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = "translateX(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                  >
+                    <span style={{ 
+                      marginRight: "12px", 
+                      fontSize: "1.2rem" 
+                    }}>{item.icon}</span>
+                    <span style={{ 
+                      fontSize: "1rem",
+                      color: "#374151",
+                      fontWeight: "500"
+                    }}>{item.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
             
-            <p style={{ fontSize: "0.9rem", fontStyle: "italic", color: "#6c757d" }}>
-              Just type "Hi" or "Enter your query" to get started! 👋
-            </p>
+            <div style={{
+              background: "linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)",
+              borderRadius: "16px",
+              padding: "20px",
+              margin: "24px auto",
+              maxWidth: "400px",
+              border: "1px solid #93c5fd"
+            }}>
+              <p style={{ 
+                fontSize: "1rem", 
+                color: "#1e40af",
+                fontWeight: "500",
+                margin: "0"
+              }}>
+                Ready to start learning? Type "Hi" or ask any question! 👋
+              </p>
+            </div>
           </div>
         ) : (
           messages.map((msg, i) => (
@@ -115,19 +224,20 @@ const ChatWindow = ({ messages, onSend, isLoading }) => {
               <div className="message-bubble" style={{
                 maxWidth: "80%",
                 minWidth: "200px",
-                padding: "16px 20px",
-                borderRadius: "20px",
+                padding: "18px 22px",
+                borderRadius: "18px",
                 background: msg.role === "user" ? 
-                  "linear-gradient(135deg, #007bff 0%, #0056b3 100%)" : 
-                  "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)",
-                color: msg.role === "user" ? "white" : "#333",
+                  "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)" : 
+                  "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+                color: msg.role === "user" ? "white" : "#1f2937",
                 boxShadow: msg.role === "user" ? 
-                  "0 4px 12px rgba(0,123,255,0.3)" : 
-                  "0 4px 12px rgba(0,0,0,0.1)",
-                fontSize: "0.95rem",
-                lineHeight: "1.4",
-                border: msg.role === "assistant" ? "1px solid #e9ecef" : "none",
-                position: "relative"
+                  "0 4px 16px rgba(37, 99, 235, 0.3)" : 
+                  "0 4px 16px rgba(0,0,0,0.08)",
+                fontSize: "1rem",
+                lineHeight: "1.6",
+                border: msg.role === "assistant" ? "1px solid #e5e7eb" : "none",
+                position: "relative",
+                fontWeight: "400"
               }}>
                 {msg.role === "assistant" && (
                   <div style={{
@@ -200,27 +310,48 @@ const ChatWindow = ({ messages, onSend, isLoading }) => {
       {/* File Upload Area */}
       {selectedFile && (
         <div style={{
-          padding: "10px",
-          background: "#e3f2fd",
-          border: "1px solid #2196f3",
-          borderRadius: "8px",
-          marginBottom: "10px",
+          padding: "12px 16px",
+          background: "linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)",
+          border: "2px solid #2563eb",
+          borderRadius: "10px",
+          marginBottom: "12px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          boxShadow: "0 2px 8px rgba(37, 99, 235, 0.15)"
         }}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <span style={{ marginRight: "10px" }}>📎</span>
-            <span style={{ fontSize: "0.9rem" }}>{selectedFile.name}</span>
+            <span style={{ 
+              marginRight: "12px", 
+              fontSize: "1.4rem",
+              filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+            }}>📎</span>
+            <span style={{ 
+              fontSize: "0.95rem", 
+              fontWeight: "500",
+              color: "#1e40af"
+            }}>{selectedFile.name}</span>
           </div>
           <button
             onClick={() => setSelectedFile(null)}
             style={{
-              background: "transparent",
+              background: "#ef4444",
               border: "none",
-              color: "#f44336",
+              color: "white",
               cursor: "pointer",
-              fontSize: "1.2rem"
+              fontSize: "1rem",
+              borderRadius: "6px",
+              padding: "4px 8px",
+              fontWeight: "600",
+              transition: "all 0.2s ease"
+            }}
+            onMouseOver={(e) => {
+              e.target.style.background = "#dc2626";
+              e.target.style.transform = "scale(1.1)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.background = "#ef4444";
+              e.target.style.transform = "scale(1)";
             }}
           >×</button>
         </div>
@@ -229,32 +360,53 @@ const ChatWindow = ({ messages, onSend, isLoading }) => {
       {/* Input Area */}
       <div 
         style={{
-          background: "white",
-          borderRadius: "12px",
-          padding: "15px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          border: dragOver ? "2px dashed #007bff" : "1px solid #e9ecef"
+          background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+          borderRadius: "0",
+          padding: "24px 32px",
+          boxShadow: "0 -4px 20px rgba(0,0,0,0.05)",
+          border: "none",
+          borderTop: "1px solid #e2e8f0"
         }}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
       >
-        <div style={{ display: "flex", alignItems: "flex-end", gap: "10px" }}>
-          <div style={{ flex: 1 }}>
-            <textarea
+        <div style={{
+          background: dragOver ? "linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)" : "white",
+          borderRadius: "20px",
+          padding: "20px",
+          border: dragOver ? "2px dashed #2563eb" : "1px solid #e5e7eb",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+          transition: "all 0.3s ease"
+        }}>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "12px" }}>
+            <div style={{ flex: 1 }}>
+              <textarea
               value={input}
               onChange={e => setInput(e.target.value)}
               style={{
                 width: "100%",
-                border: "1px solid #e9ecef",
-                borderRadius: "8px",
-                padding: "12px",
-                fontSize: "0.95rem",
+                border: "2px solid #e5e7eb",
+                borderRadius: "10px",
+                padding: "14px 16px",
+                fontSize: "1rem",
                 resize: "none",
-                minHeight: "44px",
+                minHeight: "48px",
                 maxHeight: "120px",
                 outline: "none",
-                fontFamily: "inherit"
+                fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
+                lineHeight: "1.5",
+                color: "#1f2937",
+                background: "#ffffff",
+                transition: "border-color 0.2s ease, box-shadow 0.2s ease"
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#2563eb";
+                e.target.style.boxShadow = "0 0 0 3px rgba(37, 99, 235, 0.1)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#e5e7eb";
+                e.target.style.boxShadow = "none";
               }}
               onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -264,9 +416,9 @@ const ChatWindow = ({ messages, onSend, isLoading }) => {
               }}
               placeholder="Ask about Science or Math... (Shift+Enter for new line)"
               disabled={isLoading}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "8px" }}>
+              />
+            </div>
+            <div style={{ display: "flex", gap: "10px" }}>
             <input
               type="file"
               ref={fileInputRef}
@@ -277,19 +429,37 @@ const ChatWindow = ({ messages, onSend, isLoading }) => {
             <button
               onClick={() => fileInputRef.current?.click()}
               style={{
-                padding: "12px",
-                background: "#6c757d",
+                padding: "12px 14px",
+                background: "#2563eb",
                 color: "white",
-                border: "none",
-                borderRadius: "8px",
+                border: "2px solid #1d4ed8",
+                borderRadius: "10px",
                 cursor: "pointer",
-                fontSize: "1.1rem",
+                fontSize: "1.3rem",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "center",
+                transition: "all 0.2s ease",
+                boxShadow: "0 2px 8px rgba(37, 99, 235, 0.3)",
+                minWidth: "48px",
+                minHeight: "48px"
               }}
               disabled={isLoading}
               title="Upload image or PDF"
+              onMouseOver={(e) => {
+                if (!isLoading) {
+                  e.target.style.background = "#1d4ed8";
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.4)";
+                }
+              }}
+              onMouseOut={(e) => {
+                if (!isLoading) {
+                  e.target.style.background = "#2563eb";
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.boxShadow = "0 2px 8px rgba(37, 99, 235, 0.3)";
+                }
+              }}
             >
               📎
             </button>
@@ -297,30 +467,53 @@ const ChatWindow = ({ messages, onSend, isLoading }) => {
               onClick={handleSend}
               disabled={(!input.trim() && !selectedFile) || isLoading}
               style={{
-                padding: "12px 20px",
-                background: (!input.trim() && !selectedFile) || isLoading ? "#e9ecef" : "#007bff",
-                color: (!input.trim() && !selectedFile) || isLoading ? "#6c757d" : "white",
-                border: "none",
-                borderRadius: "8px",
+                padding: "14px 24px",
+                background: (!input.trim() && !selectedFile) || isLoading ? "#e5e7eb" : "#2563eb",
+                color: (!input.trim() && !selectedFile) || isLoading ? "#9ca3af" : "white",
+                border: "2px solid " + ((!input.trim() && !selectedFile) || isLoading ? "#d1d5db" : "#1d4ed8"),
+                borderRadius: "10px",
                 cursor: (!input.trim() && !selectedFile) || isLoading ? "not-allowed" : "pointer",
-                fontSize: "0.95rem",
-                fontWeight: "500"
+                fontSize: "1rem",
+                fontWeight: "600",
+                transition: "all 0.2s ease",
+                boxShadow: (!input.trim() && !selectedFile) || isLoading ? "none" : "0 2px 8px rgba(37, 99, 235, 0.3)",
+                minHeight: "48px"
+              }}
+              onMouseOver={(e) => {
+                if (!((!input.trim() && !selectedFile) || isLoading)) {
+                  e.target.style.background = "#1d4ed8";
+                  e.target.style.transform = "translateY(-1px)";
+                  e.target.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.4)";
+                }
+              }}
+              onMouseOut={(e) => {
+                if (!((!input.trim() && !selectedFile) || isLoading)) {
+                  e.target.style.background = "#2563eb";
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.boxShadow = "0 2px 8px rgba(37, 99, 235, 0.3)";
+                }
               }}
             >
               {isLoading ? "Sending..." : "Send"}
             </button>
+            </div>
           </div>
+          {dragOver && (
+            <div style={{
+              marginTop: "16px",
+              textAlign: "center",
+              color: "#2563eb",
+              fontSize: "1rem",
+              fontWeight: "500",
+              padding: "12px",
+              background: "rgba(37, 99, 235, 0.1)",
+              borderRadius: "12px",
+              border: "1px dashed #2563eb"
+            }}>
+              📎 Drop your image or PDF here
+            </div>
+          )}
         </div>
-        {dragOver && (
-          <div style={{
-            marginTop: "10px",
-            textAlign: "center",
-            color: "#007bff",
-            fontSize: "0.9rem"
-          }}>
-            Drop your image or PDF here
-          </div>
-        )}
       </div>
     </div>
   );

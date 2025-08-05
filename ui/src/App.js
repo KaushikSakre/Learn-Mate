@@ -13,7 +13,9 @@ function AppContent() {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, logout, user, token } = useAuth();
+  
+  console.log('AppContent render - isAuthenticated:', isAuthenticated, 'loading:', loading, 'user:', user, 'token:', !!token);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -23,11 +25,18 @@ function AppContent() {
 
   useEffect(() => {
     if (currentSessionId && isAuthenticated) {
-      axios.get(`http://localhost:8000/session/${currentSessionId}`).then(res => {
-        setMessages(res.data);
-      });
+      axios.get(`http://localhost:8000/session/${currentSessionId}`)
+        .then(res => {
+          setMessages(res.data);
+        })
+        .catch(error => {
+          console.error('Error fetching session messages:', error);
+          if (error.response?.status === 403) {
+            logout();
+          }
+        });
     }
-  }, [currentSessionId, isAuthenticated]);
+  }, [currentSessionId, isAuthenticated, logout]);
 
   if (loading) {
     return (
@@ -55,9 +64,18 @@ function AppContent() {
   }
 
   const fetchSessions = async () => {
-    const res = await axios.get("http://localhost:8000/sessions");
-    setSessions(res.data);
-    if (res.data.length > 0) setCurrentSessionId(res.data[0].id);
+    try {
+      const res = await axios.get("http://localhost:8000/sessions");
+      setSessions(res.data);
+      if (res.data.length > 0) setCurrentSessionId(res.data[0].id);
+    } catch (error) {
+      console.error('Error fetching sessions:', error);
+      if (error.response?.status === 403) {
+        // Token might be invalid, clear auth state
+        logout();
+      }
+      setError('Failed to load sessions. Please try logging in again.');
+    }
   };
 
   const createNewSession = async () => {

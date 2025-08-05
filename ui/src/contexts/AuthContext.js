@@ -43,21 +43,29 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, [token]);
 
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     try {
+      console.log('Attempting login with:', { email });
       const response = await axios.post('http://localhost:8000/login', {
-        username,
+        username: email, // API expects 'username' field but can accept email
         password
       });
 
+      console.log('Login response:', response.data);
       const { user, token } = response.data;
+      console.log('Extracted user:', user);
+      console.log('Extracted token:', token);
       setUser(user);
       setToken(token);
       localStorage.setItem('token', token);
       
+      console.log('Login successful, user set:', user);
+      console.log('Auth state after login - user:', user, 'token:', token);
       return { success: true };
     } catch (error) {
-      const message = error.response?.data?.detail || 'Login failed';
+      console.error('Login error:', error);
+      console.error('Error response:', error.response);
+      const message = error.response?.data?.detail || error.message || 'Login failed';
       return { success: false, error: message };
     }
   };

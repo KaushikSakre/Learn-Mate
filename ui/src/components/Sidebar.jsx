@@ -33,40 +33,47 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
 
   return (
     <div style={{ 
-      width: "280px", 
-      background: "linear-gradient(180deg, #2c3e50 0%, #34495e 100%)", 
+      width: "320px", 
+      background: "linear-gradient(180deg, #1e293b 0%, #334155 100%)", 
       color: "white",
       display: "flex",
       flexDirection: "column",
-      height: "100vh"
+      height: "100vh",
+      boxShadow: "4px 0 20px rgba(0, 0, 0, 0.1)",
+      position: "relative"
     }}>
       {/* Header */}
-      <div style={{ padding: "20px 15px", borderBottom: "1px solid #4a5d70" }}>
-        <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
+      <div style={{ 
+        padding: "28px 24px", 
+        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+        background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)"
+      }}>
+        <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
           <div style={{ 
-            fontSize: "1.8rem", 
-            marginRight: "10px",
-            background: "linear-gradient(45deg, #3498db, #2980b9)",
-            borderRadius: "8px",
-            padding: "5px 8px"
+            fontSize: "2rem", 
+            marginRight: "12px",
+            background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+            borderRadius: "12px",
+            padding: "8px 10px",
+            boxShadow: "0 4px 12px rgba(37, 99, 235, 0.3)"
           }}>
             🧠
           </div>
           <div>
             <h2 style={{ 
               margin: 0, 
-              fontSize: "1.4rem", 
-              fontWeight: "600",
-              background: "linear-gradient(45deg, #3498db, #2ecc71)",
+              fontSize: "1.6rem", 
+              fontWeight: "700",
+              background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text"
             }}>LearnMate</h2>
             <p style={{ 
               margin: "2px 0 0 0", 
-              fontSize: "0.8rem", 
-              color: "#bdc3c7",
-              fontWeight: "300"
+              fontSize: "0.85rem", 
+              color: "#cbd5e1",
+              fontWeight: "400"
             }}>AI Math & Science Tutor</p>
           </div>
         </div>
@@ -75,23 +82,36 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
           onClick={onNewSession}
           style={{
             width: "100%",
-            padding: "12px 16px",
-            background: "linear-gradient(45deg, #3498db, #2980b9)",
+            padding: "16px 20px",
+            background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
             color: "white",
             border: "none",
-            borderRadius: "8px",
+            borderRadius: "12px",
             cursor: "pointer",
-            fontSize: "0.95rem",
-            fontWeight: "500",
+            fontSize: "1rem",
+            fontWeight: "600",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            transition: "all 0.2s ease"
+            transition: "all 0.3s ease",
+            boxShadow: "0 4px 12px rgba(37, 99, 235, 0.3)"
           }}
-          onMouseOver={e => e.target.style.transform = "translateY(-1px)"}
-          onMouseOut={e => e.target.style.transform = "translateY(0)"}
+          onMouseOver={e => {
+            e.target.style.transform = "translateY(-2px)";
+            e.target.style.boxShadow = "0 6px 20px rgba(37, 99, 235, 0.4)";
+          }}
+          onMouseOut={e => {
+            e.target.style.transform = "translateY(0)";
+            e.target.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.3)";
+          }}
         >
-          <span style={{ marginRight: "8px", fontSize: "1.1rem" }}>+</span>
+          <span style={{ 
+            marginRight: "10px", 
+            fontSize: "1.2rem",
+            background: "rgba(255, 255, 255, 0.2)",
+            borderRadius: "6px",
+            padding: "2px 6px"
+          }}>+</span>
           New Chat
         </button>
       </div>
@@ -100,18 +120,35 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
       <div style={{ 
         flex: 1, 
         overflowY: "auto", 
-        padding: "10px 0"
+        padding: "16px 0"
       }}>
         {sessions.length === 0 ? (
           <div style={{
-            padding: "20px 15px",
+            padding: "32px 24px",
             textAlign: "center",
-            color: "#bdc3c7",
-            fontSize: "0.9rem"
+            color: "#94a3b8",
+            fontSize: "0.95rem"
           }}>
-            <div style={{ fontSize: "2rem", marginBottom: "10px" }}>💬</div>
-            <p>No conversations yet</p>
-            <p style={{ fontSize: "0.8rem", marginTop: "5px" }}>Start a new chat to begin learning!</p>
+            <div style={{ 
+              fontSize: "3rem", 
+              marginBottom: "16px",
+              background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.1))"
+            }}>💬</div>
+            <p style={{ 
+              fontSize: "1rem", 
+              fontWeight: "500", 
+              marginBottom: "8px",
+              color: "#e2e8f0"
+            }}>No conversations yet</p>
+            <p style={{ 
+              fontSize: "0.85rem", 
+              color: "#94a3b8",
+              lineHeight: "1.4"
+            }}>Start a new chat to begin your learning journey!</p>
           </div>
         ) : (
           sessions.map(session => {
@@ -122,12 +159,13 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
               <div
                 key={session.id}
                 style={{
-                  margin: "2px 10px",
-                  borderRadius: "8px",
-                  background: isActive ? "rgba(52, 152, 219, 0.2)" : "transparent",
-                  border: isActive ? "1px solid #3498db" : "1px solid transparent",
-                  transition: "all 0.2s ease",
-                  position: "relative"
+                  margin: "4px 16px",
+                  borderRadius: "12px",
+                  background: isActive ? "linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(29, 78, 216, 0.15) 100%)" : "transparent",
+                  border: isActive ? "1px solid rgba(37, 99, 235, 0.4)" : "1px solid transparent",
+                  transition: "all 0.3s ease",
+                  position: "relative",
+                  boxShadow: isActive ? "0 2px 8px rgba(37, 99, 235, 0.2)" : "none"
                 }}
                 onMouseEnter={() => setHoveredSession(session.id)}
                 onMouseLeave={() => setHoveredSession(null)}
@@ -135,27 +173,29 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
                 <div
                   onClick={() => onSessionClick(session.id)}
                   style={{
-                    padding: "12px 15px",
+                    padding: "16px 18px",
                     cursor: "pointer",
-                    borderRadius: "8px",
-                    background: isHovered && !isActive ? "rgba(255,255,255,0.05)" : "transparent"
+                    borderRadius: "12px",
+                    background: isHovered && !isActive ? "rgba(255,255,255,0.08)" : "transparent",
+                    transition: "all 0.2s ease"
                   }}
                 >
                   <div style={{
-                    fontSize: "0.9rem",
-                    fontWeight: isActive ? "600" : "400",
-                    color: isActive ? "#3498db" : "#ecf0f1",
-                    marginBottom: "4px",
+                    fontSize: "0.95rem",
+                    fontWeight: isActive ? "600" : "500",
+                    color: isActive ? "#60a5fa" : "#f1f5f9",
+                    marginBottom: "6px",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
+                    whiteSpace: "nowrap",
+                    lineHeight: "1.3"
                   }}>
-                    {session.name || "Untitled Chat"}
+                    💬 {session.name || "Untitled Chat"}
                   </div>
                   <div style={{
-                    fontSize: "0.75rem",
-                    color: "#95a5a6",
-                    fontWeight: "300"
+                    fontSize: "0.8rem",
+                    color: isActive ? "#cbd5e1" : "#94a3b8",
+                    fontWeight: "400"
                   }}>
                     {formatDate(session.created_at)}
                   </div>
@@ -172,20 +212,30 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
                     }}
                     style={{
                       position: "absolute",
-                      right: "8px",
+                      right: "12px",
                       top: "50%",
                       transform: "translateY(-50%)",
-                      background: "#e74c3c",
+                      background: "#ef4444",
                       color: "white",
                       border: "none",
-                      borderRadius: "4px",
-                      width: "24px",
-                      height: "24px",
+                      borderRadius: "8px",
+                      width: "28px",
+                      height: "28px",
                       cursor: "pointer",
-                      fontSize: "0.8rem",
+                      fontSize: "1rem",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center"
+                      justifyContent: "center",
+                      transition: "all 0.2s ease",
+                      boxShadow: "0 2px 6px rgba(239, 68, 68, 0.3)"
+                    }}
+                    onMouseOver={(e) => {
+                      e.target.style.background = "#dc2626";
+                      e.target.style.transform = "translateY(-50%) scale(1.1)";
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.style.background = "#ef4444";
+                      e.target.style.transform = "translateY(-50%) scale(1)";
                     }}
                     title="Delete conversation"
                   >
@@ -200,15 +250,18 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
 
       {/* User Info & Footer */}
       <div style={{
-        borderTop: "1px solid #4a5d70",
-        padding: "15px"
+        borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+        padding: "20px 24px",
+        background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)"
       }}>
         {/* User Info */}
         <div style={{
-          background: "rgba(255,255,255,0.1)",
-          borderRadius: "8px",
-          padding: "12px",
-          marginBottom: "15px"
+          background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%)",
+          borderRadius: "12px",
+          padding: "16px",
+          marginBottom: "20px",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)"
         }}>
           <div style={{
             display: "flex",
@@ -218,16 +271,25 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
           }}>
             <div>
               <div style={{
-                fontSize: "0.9rem",
-                fontWeight: "500",
-                color: "#ecf0f1",
-                marginBottom: "2px"
+                fontSize: "0.95rem",
+                fontWeight: "600",
+                color: "#f1f5f9",
+                marginBottom: "4px",
+                display: "flex",
+                alignItems: "center"
               }}>
-                👤 {user?.full_name || user?.username || "User"}
+                <span style={{ 
+                  marginRight: "8px",
+                  background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+                  borderRadius: "8px",
+                  padding: "4px 6px",
+                  fontSize: "0.8rem"
+                }}>👤</span>
+                {user?.full_name || user?.username || "User"}
               </div>
               <div style={{
-                fontSize: "0.75rem",
-                color: "#bdc3c7"
+                fontSize: "0.8rem",
+                color: "#cbd5e1"
               }}>
                 {user?.email}
               </div>
@@ -236,21 +298,24 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
               onClick={logout}
               style={{
                 background: "transparent",
-                border: "1px solid #e74c3c",
-                color: "#e74c3c",
-                padding: "4px 8px",
-                borderRadius: "4px",
-                fontSize: "0.75rem",
+                border: "1px solid #ef4444",
+                color: "#ef4444",
+                padding: "6px 12px",
+                borderRadius: "8px",
+                fontSize: "0.8rem",
                 cursor: "pointer",
-                transition: "all 0.2s ease"
+                transition: "all 0.2s ease",
+                fontWeight: "500"
               }}
               onMouseOver={(e) => {
-                e.target.style.background = "#e74c3c";
+                e.target.style.background = "#ef4444";
                 e.target.style.color = "white";
+                e.target.style.transform = "scale(1.05)";
               }}
               onMouseOut={(e) => {
                 e.target.style.background = "transparent";
-                e.target.style.color = "#e74c3c";
+                e.target.style.color = "#ef4444";
+                e.target.style.transform = "scale(1)";
               }}
               title="Logout"
             >
@@ -261,12 +326,33 @@ const Sidebar = ({ sessions, currentSessionId, onSessionClick, onNewSession, onD
 
         {/* App Info */}
         <div style={{
-          fontSize: "0.8rem",
-          color: "#95a5a6",
-          textAlign: "center"
+          fontSize: "0.85rem",
+          color: "#94a3b8",
+          textAlign: "center",
+          padding: "12px",
+          background: "rgba(255, 255, 255, 0.05)",
+          borderRadius: "10px",
+          border: "1px solid rgba(255, 255, 255, 0.1)"
         }}>
-          <div style={{ marginBottom: "5px" }}>Powered by AI</div>
-          <div style={{ fontSize: "0.7rem" }}>Math • Science • Hinglish</div>
+          <div style={{ 
+            marginBottom: "6px",
+            fontWeight: "500",
+            color: "#cbd5e1"
+          }}>✨ Powered by AI</div>
+          <div style={{ 
+            fontSize: "0.75rem",
+            color: "#94a3b8",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px"
+          }}>
+            <span>Math</span>
+            <span style={{ color: "#60a5fa" }}>•</span>
+            <span>Science</span>
+            <span style={{ color: "#60a5fa" }}>•</span>
+            <span>Hinglish</span>
+          </div>
         </div>
       </div>
     </div>
